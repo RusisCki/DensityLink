@@ -1,0 +1,194 @@
+
+const startBtn = document.querySelector('.start-btn');
+const popupInfo = document.querySelector('.popup-info');
+const exitBtn = document.querySelector('.exit-btn');
+const main = document.querySelector('.main');
+const continueBtn = document.querySelector('.continue-btn');
+const quizSection = document.querySelector('.quiz-section');
+const quizBox = document.querySelector('.quiz-box');
+const resultBox = document.querySelector('.result-box');
+const tryAgainBtn = document.querySelector('.tryAgain-btn');
+const goHomeBtn = document.querySelector('.goHome-btn');
+const nextBtn = document.querySelector('.next-btn');
+const optionList = document.querySelector('.option-list');
+
+
+let questionCount = 0; // index in selectedQuestions
+let questionNumb = 1;  // display number 1–10
+
+let countKa = 0;
+let countKha = 0;
+let countGa = 0;
+let countGha = 0;
+
+let selectedQuestions = []; // global array of 10 random questions
+
+let music = new Audio("Cafe_in_Memory(256k).mp3");
+
+function handleMusic(select) {
+    const value = select.value;
+
+    if (value === "on") {
+        MusicON();
+    } else if (value === "off") {
+        MusicOFF();
+    }
+}
+
+function MusicON() {
+    music.loop = true; // Optional: repeat the music
+    music.play();
+}
+
+function MusicOFF() {
+    music.pause();
+    music.currentTime = 0; // reset to start
+}
+
+startBtn.onclick = () => {
+    popupInfo.classList.add('active');
+    main.classList.add('active');
+}
+
+exitBtn.onclick = () => {
+    popupInfo.classList.remove('active');
+    main.classList.remove('active');
+}
+
+continueBtn.onclick = () => {
+    quizSection.classList.add('active');
+    popupInfo.classList.remove('active');
+    main.classList.remove('active');
+    quizBox.classList.add('active');
+
+    initQuiz(); // initialize 10 random questions
+}
+
+
+function initQuiz() {
+    // Shuffle and pick 10 questions
+    let shuffled = questions.sort(() => Math.random() - 0.5);
+    selectedQuestions = shuffled.slice(0, 10);
+    selectedQuestions.forEach((q, i) => q.numb = i + 1);
+
+    // Reset counters
+    questionCount = 0;
+    questionNumb = 1;
+    countKa = 0;
+    countKha = 0;
+    countGa = 0;
+    countGha = 0;
+
+    showQuestions(questionCount);
+    questionCounter(questionNumb);
+    nextBtn.classList.remove('active');
+}
+
+
+function showQuestions(index) {
+    const questionText = document.querySelector('.question-text');
+
+    questionText.textContent = `${selectedQuestions[index].numb}. ${selectedQuestions[index].question}`;
+
+    let optionTag = selectedQuestions[index].options
+        .map(opt => `<div class="option"><span>${opt}</span></div>`)
+        .join('');
+    optionList.innerHTML = optionTag;
+
+    const option = document.querySelectorAll('.option');
+    option.forEach(opt => opt.setAttribute('onclick', 'optionSelected(this)'));
+}
+
+
+function optionSelected(answer) {
+    let userAnswer = answer.textContent;
+    answer.classList.add('selected');
+
+    let allOptions = optionList.children.length;
+
+    if (userAnswer.startsWith("က")) countKa++;
+    else if (userAnswer.startsWith("ခ")) countKha++;
+    else if (userAnswer.startsWith("ဂ")) countGa++;
+    else if (userAnswer.startsWith("ဃ")) countGha++;
+
+    // Disable all options
+    for (let i = 0; i < allOptions; i++) {
+        optionList.children[i].classList.add('disabled');
+    }
+
+    nextBtn.classList.add('active');
+}
+
+
+function questionCounter(index) {
+    const questionTotal = document.querySelector('.question-total');
+    questionTotal.textContent = `${index} of ${selectedQuestions.length} Questions`;
+}
+
+
+nextBtn.onclick = () => {
+    if (questionCount < selectedQuestions.length - 1) {
+        questionCount++;
+        questionNumb++;
+        showQuestions(questionCount);
+        questionCounter(questionNumb);
+        nextBtn.classList.remove('active');
+    } else {
+        showResultBox();
+    }
+}
+
+
+tryAgainBtn.onclick = () => {
+    initQuiz();
+    quizBox.classList.add('active');
+    resultBox.classList.remove('active');
+    nextBtn.classList.remove('active');
+}
+
+goHomeBtn.onclick = () => {
+    quizSection.classList.remove('active');
+    resultBox.classList.remove('active');
+    nextBtn.classList.remove('active');
+}
+
+
+
+function showResultBox() {
+    quizBox.classList.remove('active');
+    resultBox.classList.add('active');
+
+    let personality = "";
+    let sumKaKha = countKa + countKha;
+    let sumKaGa = countKa + countGa;
+    let sumKaGha = countKa + countGha;
+    let sumKhaGa = countKha + countGa;
+    let sumKhaGha = countKha + countGha;
+    let sumGaGha = countGa + countGha;
+    let maxPair = Math.max(sumKaKha, sumKaGa, sumKaGha, sumKhaGa, sumKhaGha, sumGaGha);
+    if (countKa == 6) {
+        personality = "မင်းက စိန်ခေါ်မှု တွေကို ဦးဆောင်၊ ရင်ဆိုင်တတ်တယ်။ မင်းရဲ့ သတ္တိက အခြားလူ တွေကိုအားရှိစေပြီး မင်းက မင်းယုံကြည်တာကို ဘယ်တော့မှ လက်မလွှတ်ဘူး။ မင်းက  မင်းရဲ့စိတ်အားထက်သန်မှု နှင့် ဗီဇအပေါ် အခြေခံပြီး မင်းအတွက် အရေးအကြီးဆုံးလူကို ကာကွယ်ပေးတယ်။ မင်းက ကြောက်  နေ ရင် တောင် ရှေ့ကိုဆက်သွားတယ်။ ဘာလို့လဲဆိုတော့ တွန့်ဆုတ်နေတာက မင်းရဲ့သဘာဝမဟုတ်လို့ပဲ။ မင်းက ဒုက္ခ တွေကြားထဲ ရောက်သွားတတ် ပေမယ့် အမြဲတမ်း မားမားမတ်မတ် ရပ်ပြီး ရင်ဆိုင်တယ်။";
+    } else if (countKa == 6) {
+        personality = "မင်းက ဘာဖြစ်ဖြစ် အမြဲတမ်း ကိုယ့်ကိုယ်ကိုထိန်းချုပ်ပြီးနေတယ်။ မင်းရဲ့ စိတ်ရှည်မှု နှင့်အ မျှော်အမြင်ရှိမှုက အခက်အခဲ တွေကြားထဲမှာ ရှင်သန်နိုင်အောင် ထိန်း ပေးတယ်။ မင်းက ပြဿနာ တွေထက် အေး ဆေး နေရတာပိုကြိုက်တယ်။ မင်းက မလုပ်ခင်မှာ အရင်စဉ်းစားတတ်တယ် ပြီးတော့ မင်းက ရည်ရွယ်ချက်နှင့် နားလည်မှုရှိမှ လှုပ်ရှားတယ်။ မင်းက မြစ်ကြီးတစ်စင်းလို၊ မင်းရဲ့ ငြိမ်သက်မှုက မင်းရဲ့ အစွမ်းပဲ။";
+    } else if (countGa == 6) {
+        personality = "မင်းက ဘယ်ကိုသွားသွား ခွန်အားအပြည့်ပဲ။ လူတွေက မင်းရဲ့ အနားမှာရှိ နေရင် ပျော်ကြတယ်။ မင်းရဲ့ ရယ်သံ‌ တွေက အခြားလူ တွေရဲ့ ‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌မကောင်းတဲ့ နေ့ကိုတောင် ကောင်း အောင်လုပ် ပေးတယ်။ မင်းကကမ္ဘာကြီးက ပျော်စရာတွေပြည့် နေတဲ့နေရာလို့မြင်တယ်။ မင်းက အမှားတွေဖြစ် နေ ‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌တဲ့အချိန်မှာ‌ တောင် ကြိုးစားပြီး ပြုံးပြုံးနေတတ်တယ်။ဘဝကြီးကတိုလွန်းပြီး  ပျော် ပျော် ေနသေခဲတယ် ဆိုတာကို မင်းဘေးနားက လူတွေက မင်းကိုကြည့်ရင် အမြဲတမ်းအမှတ်ရနေတယ်။";
+    } else if (countGha == 6) {
+        personality = "မင်းက စိတ်သ ေဘာထား ကောင်းပြီး အမြဲ စိတ်ကူးယဉ်ဆန်တယ်။ မင်းက အခြားလူ တွေကို နက်နက်နဲနဲဂရုစိုက်တတ်တယ်။ မင်းက စိတ်သ ေဘာထား ကောင်းတာက အားအင်တစ်ခုလို့ယုံကြည်ပြီး တော့ မင်းရဲ့မသိစိတ်က လူတစ် ယောက်ကို အပေါ်ယံ ကြည့်လိုက်တာနှင့် သူတို့ဘာ တွေခံစားနေရလဲဆိုတာကို နားလည်တယ်။ မင်းက တစ်ယောက်ယောက် စိတ်ညစ်နေရင် အရင်ဆုံးသိတတ်ပြီး တော့။ တိတ်ဆိတ်ခြင်းဖြင့်‌ေသာ်လည်း‌ ကောင်း အရင်ဆုံးကူညီတတ်တယ်။";
+    } else if (maxPair === sumKaKha) {
+        personality = "မင်းက ဘာတွေဘယ်လောက် ခက်ခဲ နေပါ စေ ဘယ်တော့မှ အရှုံးမပေးတတ်ဘူး။ မင်းက အားကိုးရတယ် ပြီးတော့ မားမားမတ်မတ် ရပ်တည်နိုင်တယ်။ မင်းက ဇွဲက ပါရမီထက်ပိုစွမ်းတယ် ဆိုတာကို ကောင်း ကောင်းနားလည်ပြီးအ မြဲတမ်း ကိုယ့် ကိုယ်ကို ထူးချွန်အောင်အားသွန်ခွန်စိုက် ကြိုးစားနေတယ်။မင်းရဲ့ စွမ်းရည်က ဇွဲကောင်းလို့ ရတယ်ဆိုတာကို အခြားလူ ေတွက နားလည်မှုလွဲေနတတ်တယ်။ မင်းကအခြားလူ တွေအတွက် မှီခိုရာနေရာ တစ်နေရာ ဖြစ်တယ်။";
+    } else if (maxPair === sumKaGa) {
+        personality = "မင်းက ပေါင်းရသင်းကတာ ကောင်းတယ်၊ အဖွဲ့လိုက်ဆောင်ရွက်တတ်တယ်။ မင်းက ငြိမ်းချမ်းမှုနှင့် မလိုအပ်တဲ့ သဘောထားကွဲလွဲမှုကို‌ ရှောင်တတ်တယ်။ မင်းက အခြားလူ တွေ မင်းကိုစိတ်ဝင်စားလာအောင် မလုပ်တတ်ဘူး ဒါပေမယ့် မင်းရဲ့ နွေးထွေးမှုနှင့် အားထားစရာ‌ေကာင်းမှုတို့ ကြောင့် လူတွေက မင်းကိုလွယ်လွယ်နှင့်ယုံကြည်ကြတယ်။ မင်းက  အပျော်၊ ကြင်နာမှုနှင့်၊ စိတ်ချမ်းသာမှုကိုရှာရင်း    ဘဝကိုရိုးရိုးရှင်းရှင်းအသက်ရှင်တယ်။";
+    } else if (maxPair === sumKaGha) {
+        personality = "မင်းက ဂရုစိုက်တတ်တယ်၊ သတိထားတတ်တယ် ပြီးတော့ သိမ်မွေ့တယ်။ မင်းက တစ်ခုခု ကိုဖွင့်ပြောဖို့ အချိန်ယူတယ် ဒါပေမယ့် ဖွင့်ပြောပြီးရင် သစ္စာရှိ ပြီးဟန်မဆောင်တတ်ဘူး။ မင်းက ဆူညံတဲ့ အဖွဲ့ တွေ ထက် အေးချမ်းတဲ့ ‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌‌အဖွဲ့ကိုပိုကြိုက်တယ်။ မင်းက အသေးစိတ်က အစဂရုစိုက်တတ်ပြီး အခြား‌‌လူ တွေရဲ့ အတွင်းစိတ်ကို အပေါ်ယံကြည့်ရုံနှင့် နားလည်တတ်တယ်။ မင်းကိုယ်ကို မင်းသံသယဖြစ် ေနရင် တောင် မင်းရဲ့စိတ်သဘောထား ကောင်းမှုက ထင်ပေါ် နေတတ်တယ်။";
+    } else if (maxPair === sumKhaGa) {
+        personality = "မင်းက ယုံကြည်မှုရှိတယ်၊ ရယ်စရာ‌ေပြာတတ်တယ် ပြီးတော့ အနည်းငယ် ခန့်မှန်းရခက်တယ်။ မင်းက ကြိုးစားစရာမလိုဘဲ သာမန်လို ထင်ပေါ် နေတတ်တယ်။မင်းရဲ့ ဩဇာ ကြောင့် လူတွေကမင်းကိုခင်ချင်ကြတယ်။ မင်းရဲ့ဉာဏ်ရည်ရွှင်ပျမှု ကြောင့်လူတိုင်းကို ပျော် စေတယ်။ အခြားလူတွေမပြောရဲရင်‌တောင် မင်းက မင်းပြောချင်တဲ့အရာကို ‌‌‌‌‌‌‌‌‌‌‌‌ပြောရဲတယ်။ " ;
+    } else if (maxPair === sumKhaGha) {
+        personality = "မင်းက တစ်ခုခုကို မလုပ်ခင်မှာ သေချာစဉ်းစားတတ်တယ်။ မင်းက တစ်ယောက်တည်းနေရတဲ့ အဓိပ္ပာယ်ကို တန်ဖိုးထားပြီး အခြားလူ တွေမသိနိုင်တဲ့ အရာ တွေကိုသိ‌ေနတတ်တယ်။ မင်းက တိတ်ဆိတ်နေရတဲ့အချိန်ကို ပိုသဘောကျပြီး မင်းရဲ့ စိတ်ကူးယဉ်ဆန်မှုက အရမ်းများတယ်။မင်းက စကားအရမ်းမ ေပြာတတ်ဘူး ဒါပေမယ့် ပြောရင် လေးနက်တဲ့ စကား တွေပြောတတ်တယ်။";
+    } else if (maxPair === sumGaGha) {
+        personality ="မင်းက တစ်ခုခုကို မလုပ်ခင်မှာ သေချာစဉ်းစားတတ်တယ်။အေးချမ်းသိမ်မွေ့သူဆိုတာ အကြီးအကျယ် တုန်လှုပ်တာ မရှိဘဲ စိတ်သွက်သွက်လပ်လပ်နဲ့ လူတွေနဲ့ သက်တောင့်သက်သာ နေရသူ ဖြစ်ပါတယ်။ သူ့မှာ သဘောထားပြေပြစ်ပြီး တခြားသူတွေအပေါ် သနားမြတ်နိုးမှုရှိတယ်။ မကြာခဏ စိတ်မညစ်ဘဲ ပြဿနာတစ်ခုခုကို အေးအေးချမ်းချမ်းဖြေရှင်းနိုင်တဲ့သူပါ။"
+    }
+
+    const scoreText = document.querySelector('.score-text');
+    scoreText.textContent = personality;
+}
+

@@ -1,0 +1,106 @@
+/*
+    Project: Quiz game 
+    Author: Nabin Upreti
+*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:  'sans-serif';
+}
+
+body{
+    color: #fff;
+    background: #09001d;
+    overflow: hidden;
+}
+.main{
+    min-height: 100vh;
+    background: url('/Assets/background2.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+    pointer-events: auto;
+    transition: 2s ease;
+}
+.main.active{
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+/* CSS for header*/
+.header{
+    background: transparent; 
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.logo{
+    font-size: 32px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    filter: drop-shadow(0 0 5px #09001d);
+}
+
+.navbar a{
+    font-size: 18px;
+    color:#fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 35px;
+    transition: .3s;
+}
+
+.navbar a:hover,
+.navbar a.active{
+    color: #AA2C86;
+}
+
+/*Css for container (home section)*/
+
+.container{
+    display: flex;
+    height: 100vh;
+    width: 200%;
+}
+
+.home{
+    position: relative;
+    left: -50%;
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.aboutus{
+    margin-top: 5%;
+    margin-left: 5%;
+    padding: 30px;
+}
+.innertextH{
+    text-align: left;
+    padding: 20px;
+    font-size: 35px;
+    font-weight: 500;
+}
+.innertext{
+    text-align: left;
+    padding: 10px;
+    font-size: 19px;
+    font-weight: 6          00;
+}
+.Music{
+    padding: 5px;
+    margin-left: 35px;
+    background-color: #f0279f;
+    color: white;
+    border-radius: 4px;
+}

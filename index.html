@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Test</title>
+    <!--Link CSS files-->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="main">
+
+        <!-- Header section containing navbar and logo -->
+        <header class="header">
+            <a href="#" class="logo">Destiny link</a>
+
+            <nav class="navbar">
+                <a href="index.html" class="active">Home</a>
+                <a href="about.html">About</a>
+                <select name="myDropdown" id="myDropdown" class="Music" onchange="handleMusic(this)">
+                    <option value="default">Music</option>
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                    </select>
+            </nav>
+        </header>
+
+        <!-- Another section for home content -->
+
+        <div class="container">
+            <section class="quiz-section">
+                <div class="quiz-box">
+                    <h1>Destiny link</h1>
+                    <!-- <div class="quiz-header">
+                        <span>Welcome to Quiz Game</span>
+                        <span class="header-score">Score: 0 / 5</span>
+                    </div>
+                    -->
+
+                    <h2 class="question-text"></h2>
+
+                    <div class="option-list">
+                    </div>
+
+                    <div class="quiz-footer">
+                        <span class="question-total"></span>
+                        <button class="next-btn">Next</button>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <h2>Test Result!</h2>
+                    <div class="percentage-container">
+
+                        <span class="score-text"> </span>
+                    </div>
+                    <div class="buttons">
+                        <button class="tryAgain-btn">Try Again</button>
+                        <button class="goHome-btn">Go To Home</button>
+                    </div>
+                </div>
+            </section>
+            <section class="home">
+                <div class="home-content">
+                    <h1>Destiny link</h1>
+                    <p>Destiny link မှကြိုဆိုပါတယ်။မေးခွန်းများ ဖြေလိုပါက Start Test ကိုနှိပ်ပြီး စတင်ဖြေဆိုလိုက်ပါ။</p>
+                    <button class="start-btn">Start Test</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Division for Quiz guide popup-->
+    <div class="popup-info">
+        <h2>Test Guide</h2>
+        <span class="info">၁။ သင်ဟာ မေးခွန်းတွေကိုကျော်ဖြေနိုင်မည်မဟုတ်ပါ။</span>
+        <span class="info">၂။ သင့် စိတ်ထဲတွင်‌ဖြစ်ပေါ်လာသော အဖြေကို သာချက်ချင်းဖြေပါ။</span>
+        <span class="info">၃။ သင် မေးခွန်း ၁၀ခု ကိုဖြေဆိုရပါမည်။</span>
+        <span class="info">၄။ မေးခွန်းများကို ဖြေဆိုပြီးသင်ဘယ် လို လူမျိုးလည်းဆိုတာ ကြည့်ကြရအောင်</span>
+        
+
+
+        <!--Buttons for starting quiz  -->
+        <div class="btn-group">
+            <button class="info-btn exit-btn">Exit</button>
+            <a href="#" class="info-btn continue-btn">Continue</a>
+        </div>
+    </div>
+
+    <!--Link Javascript files-->
+    <script src="script.js"></script>
+    <script src="questions.js"></script>
+
+
+</body>
+
+</html>
