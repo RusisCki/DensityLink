@@ -12,7 +12,7 @@ Welcome to Density Link!
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/nabinupreti/Quiz-Website.git
+   https://github.com/RusisCki/DensityLink.git
 
 2. **Open in a Browser:**
     Simply open the index.html file in your favorite web browser to start exploring quizzes.
@@ -22,7 +22,7 @@ Welcome to Density Link!
 
 ## Feedback
 
-We value your feedback! If you have suggestions, bug reports, or feature requests, please [open an issue.](https://github.com/nabinupreti/Quiz-Website/issues)
+We value your feedback! If you have suggestions, bug reports, or feature requests, please [open an issue.](https://github.com/RusisCki/DensityLink.git)
 
 ## Contributors
 MgToe
@@ -33,3 +33,4 @@ MgToe
 
 ![Quiz Screenshot](/Assets/Results.png)
 ![Quiz Screenshot](/Assets/About.png)
+
